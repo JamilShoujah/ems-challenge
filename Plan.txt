@@ -1,0 +1,15 @@
+This file servers to demonstrate my thought process while woeking on this project
+In other words, it gives insight on what im think, how im thing, and why i chose to do what i did
+
+Basic Plan
+1 - complete the app's functionality. Functionality is more important that design when short on time
+2 - when functionality is complete, work on the design of the page to improve user experience
+3 - if time permits, optimize project, create valid react components for better code reusability and maintenance
+4 - if time permits, establish a linting system to force all devs working on project to adopt the same coding style.
+5 - if time permits, enhance UI even further (Jamil's note: Assume all users are brain dead, so make a very simple and ituitive UI)
+
+
+below you will see the steps i have taken throughout the project.
+1 - fork original repo and clone fork onto computer
+2 - read, understand, explore and test project to get a better feel for the project
+3 - establish proper base for the project and check for any errors prior to starting development.
