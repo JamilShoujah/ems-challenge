@@ -37,6 +37,9 @@ export default function EmployeesPage() {
         <li>
           <a href="/timesheets/">Timesheets</a>
         </li>
+        <li>
+          <a href="/">home</a>
+        </li>
       </ul>
     </div>
   );
