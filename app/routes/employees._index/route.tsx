@@ -1,4 +1,5 @@
 import { useLoaderData } from "react-router";
+import EmployeeCell from "~/components/employeeCell";
 import { getDB } from "~/db/getDB";
 import IEmployee from "~/models/interfaces/employee";
 
@@ -16,17 +17,7 @@ export default function EmployeesPage() {
       <p>Hello world</p>
       <div>
         {employees.map((employee: IEmployee) => (
-          <div>
-            <ul>
-              <li>Employee #{employee.id}</li>
-              <ul>
-                <li>
-                  Full Name: {employee.firstName + " " + employee.lastName}
-                </li>
-                <li>Email: {employee.email}</li>
-              </ul>
-            </ul>
-          </div>
+          <EmployeeCell employee={employee} />
         ))}
       </div>
       <hr />

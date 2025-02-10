@@ -64,6 +64,9 @@ export default function TimesheetsPage() {
         <li>
           <a href="/employees">Employees</a>
         </li>
+        <li>
+          <a href="/">Home</a>
+        </li>
       </ul>
     </div>
   );
