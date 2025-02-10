@@ -13,3 +13,5 @@ below you will see the steps i have taken throughout the project.
 1 - fork original repo and clone fork onto computer
 2 - read, understand, explore and test project to get a better feel for the project
 3 - establish proper base for the project and check for any errors prior to starting development.
+4 - create a new script to run all of the commands needed to start the app (npm run launch)
+5 - edit employee object 
