@@ -3,5 +3,5 @@ export default interface ITimesheet {
   start_time: string;
   end_time: string;
   employee_id: number;
-  full_name?: string;
+  full_name: string;
 }

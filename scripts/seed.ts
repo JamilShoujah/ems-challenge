@@ -52,19 +52,25 @@ const employees: IEmployee[] = [
 
 const timesheets: ITimesheet[] = [
   {
+    id: 1,
     employee_id: 1,
     start_time: "2025-02-10 08:00:00",
-    end_time: "2025-02-10 17:00:00"
+    end_time: "2025-02-10 17:00:00",
+    full_name: "John Doe"
   },
   {
+    id: 2,
     employee_id: 2,
     start_time: "2025-02-11 12:00:00",
-    end_time: "2025-02-11 17:00:00"
+    end_time: "2025-02-11 17:00:00",
+    full_name: "Jane Smith"
   },
   {
+    id: 3,
     employee_id: 3,
     start_time: "2025-02-12 07:00:00",
-    end_time: "2025-02-12 16:00:00"
+    end_time: "2025-02-12 16:00:00",
+    full_name: "Alice Johnson"
   }
 ];
 
