@@ -15,3 +15,117 @@ below you will see the steps i have taken throughout the project.
 3 - establish proper base for the project and check for any errors prior to starting development.
 4 - create a new script to run all of the commands needed to start the app (npm run launch)
 5 - edit employee object 
+
+
+checklist:
+
+1 - Single Employee View (/employees/:id & /employees/new)
+    A page displaying a form used to create and update a single employee, it allows the user to:
+        - Create a new employee: ✅
+        - Update an employee's information ❌
+
+    Requirements:
+        1 - personal fields you want to include (e.g. name, email, phone number, date of birth...),✅
+
+        2 - professional fields (e.g. job title, department, salary, start date, end date...),✅
+
+        3 - fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex ❌
+
+        4 - Navigation buttons to go to the list of employees, ❌
+
+    Bonus
+
+        1 - Employee Photo (to be stored in the app's file system) ❌
+
+        2 - Documents such as CV, ID, etc. (to be stored in the app's file system) ❌
+
+        3 - Compliance validation (e.g. check if the employee is over 18 years old or if the salary is above a minimum wage or that an ID is uploaded) ❌
+
+        4 - Any other field you think is relevant ❌
+
+    Have at most 10 fields, a simple design using grid or flexbox is enough. ❌
+
+______________________________________________________________________________________________________________
+
+2 - Multiple Employees View (/employees)
+
+    List View
+    A page displaying a list of employees, it allows the user to:
+        - View the list of employees ✅
+        - Go to the single employee view of an employee ✅
+
+    Requirements
+
+        1 - Have a link for each row leading to the single employee view of the employee, ✅
+
+        2 - No more than 5 relevant columns,❌
+
+        3 - Navigation buttons to go to the new employee page and the list of timesheets, ✅
+
+    Bonus
+
+        4 - Search bar ❌
+
+        5 - Sorting by various fields ❌
+
+        6 - Filtering ❌
+
+        7 - Pagination ❌ // limited number of entries to divide lists of results into manageable chunks
+
+______________________________________________________________________________________________________________
+
+3 - Single Timesheet View (/timesheets/:id & /timesheets/new)
+    Create/Update Form
+    A page displaying a form used to create and update a single timesheet, it allows the user to:
+        - Create a new timesheet ✅
+        - Update a timesheet's information ❌
+
+    Requirements
+
+        1 - Start and end time fields 
+
+        2 - Employee field (dropdown with the list of employees)
+
+        3 - Navigation buttons to go to the employee, to the list of employees or to the list of timesheets
+
+    Bonus
+
+        4 - Validation: start time is before end time, end time is after start time.
+
+        5 - Summary: a text input specifying the work done during the timesheet period
+
+______________________________________________________________________________________________________________
+
+4 - Multiple Timesheets View (/timesheets)
+    List View
+    A page displaying the created timesheets
+
+
+    Requirements
+
+    1 - Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it 
+
+    2 - A table view similar to the employee's table view with links to the single timesheet view
+
+    3 - A toggle to switch between calendar and table views
+
+    Bonus
+
+    1 - Search bar
+
+    2 - Filtering by employee
+    
+______________________________________________________________________________________________________________
+
+5 - What is not required but i should do
+    - Styling, but the app should be usable; if you want to style, uncomment the tailwind code in `app.css` to use tailwind or write your own styles there without tailwind or any other library.
+    - Authentication, authorization.
+    - Tests, but they are always welcome.
+    - Deployment, but you can deploy it if you want.
+    - Typing (the app uses typescript but just use `any` or ignore typescript errors if you want).
+    - Error handling, but it is always welcome.
+
+
+______________________________________________________________________________________________________________
+
+6 - Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info and repository link and feedback.
