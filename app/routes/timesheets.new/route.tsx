@@ -23,9 +23,19 @@ export const action: ActionFunction = async ({ request }) => {
   const end_time = formData.get("end_time");
 
   const db = await getDB();
+
+  // Fetch the employee's full name
+  const employee = await db.get(
+    "SELECT firstName, lastName FROM employees WHERE id = ?",
+    [employee_id]
+  );
+
+  const full_name = `${employee.firstName} ${employee.lastName}`;
+
+  // Insert timesheet with full_name
   await db.run(
-    "INSERT INTO timesheets (employee_id, start_time, end_time) VALUES (?, ?, ?)",
-    [employee_id, start_time, end_time]
+    "INSERT INTO timesheets (employee_id, start_time, end_time, full_name) VALUES (?, ?, ?, ?)",
+    [employee_id, start_time, end_time, full_name]
   );
 
   return redirect("/timesheets");

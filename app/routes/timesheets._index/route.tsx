@@ -1,6 +1,8 @@
 import { useLoaderData } from "react-router";
 import { useState } from "react";
 import { getDB } from "~/db/getDB";
+import TimesheetDetails from "~/components/timesheetCell";
+import ITimesheet from "~/models/interfaces/timesheet";
 
 export async function loader() {
   const db = await getDB();
@@ -28,20 +30,8 @@ export default function TimesheetsPage() {
 
       {isTableView ? (
         <div>
-          {timesheetsAndEmployees.map((timesheet: any) => (
-            <div key={timesheet.id}>
-              <ul>
-                <li>Timesheet #{timesheet.id}</li>
-                <ul>
-                  <li>
-                    Employee: {timesheet.full_name} (ID: {timesheet.employee_id}
-                    )
-                  </li>
-                  <li>Start Time: {timesheet.start_time}</li>
-                  <li>End Time: {timesheet.end_time}</li>
-                </ul>
-              </ul>
-            </div>
+          {timesheetsAndEmployees.map((timesheet: ITimesheet) => (
+            <TimesheetDetails timesheet={timesheet} />
           ))}
         </div>
       ) : (

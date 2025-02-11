@@ -4,6 +4,7 @@ import path from "path";
 import yaml from "js-yaml";
 import { fileURLToPath } from "url";
 import IEmployee from "~/models/interfaces/employee";
+import ITimesheet from "~/models/interfaces/timesheet";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -15,26 +16,6 @@ const dbConfig = yaml.load(fs.readFileSync(dbConfigPath, "utf8")) as {
 const { sqlite_path: sqlitePath } = dbConfig;
 
 const db = new sqlite3.Database(sqlitePath);
-
-// interface IEmployee {
-//   id?: number;
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   position: string;
-//   salary: number;
-//   hireDate: string;
-//   department: string;
-//   isActive: boolean;
-// }
-
-// move this when done
-interface ITimesheet {
-  id?: number;
-  start_time: string;
-  end_time: string;
-  employee_id: number;
-}
 
 const employees: IEmployee[] = [
   {
@@ -71,23 +52,28 @@ const employees: IEmployee[] = [
 
 const timesheets: ITimesheet[] = [
   {
+    id: 1,
     employee_id: 1,
     start_time: "2025-02-10 08:00:00",
-    end_time: "2025-02-10 17:00:00"
+    end_time: "2025-02-10 17:00:00",
+    full_name: "John Doe"
   },
   {
+    id: 2,
     employee_id: 2,
     start_time: "2025-02-11 12:00:00",
-    end_time: "2025-02-11 17:00:00"
+    end_time: "2025-02-11 17:00:00",
+    full_name: "Jane Smith"
   },
   {
+    id: 3,
     employee_id: 3,
     start_time: "2025-02-12 07:00:00",
-    end_time: "2025-02-12 16:00:00"
+    end_time: "2025-02-12 16:00:00",
+    full_name: "Alice Johnson"
   }
 ];
 
-// Helper function to insert data into a table
 const insertData = (table: string, data: any[]) => {
   const columns = Object.keys(data[0]).join(", ");
   const placeholders = Object.keys(data[0])
@@ -105,13 +91,11 @@ const insertData = (table: string, data: any[]) => {
   insertStmt.finalize();
 };
 
-// Run the insertion inside a transaction
 db.serialize(() => {
   insertData("employees", employees);
   insertData("timesheets", timesheets);
 });
 
-// Close the database connection
 db.close((err) => {
   if (err) {
     console.error(err.message);
