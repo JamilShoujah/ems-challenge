@@ -3,7 +3,7 @@ import { isValidEmail } from "~/functions/emailValidation";
 
 const EmailInput = ({
   onValidation,
-  initialEmail = "" // Default to empty string
+  initialEmail = ""
 }: {
   onValidation: (isValid: boolean) => void;
   initialEmail?: string;
@@ -18,7 +18,6 @@ const EmailInput = ({
     const isValid = isValidEmail(newEmail);
     setError(isValid ? null : "Invalid email format");
 
-    // Notify parent form about validation status
     onValidation(isValid);
   };
 

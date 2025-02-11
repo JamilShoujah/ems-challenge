@@ -13,7 +13,7 @@ checklist:
 1 - Single Employee View (/employees/:id & /employees/new)
     A page displaying a form used to create and update a single employee, it allows the user to:
         - Create a new employee: ✅
-        - Update an employee's information ❌
+        - Update an employee's information  ✅
 
     Requirements:
         1 - personal fields you want to include (e.g. name, email, phone number, date of birth...),✅
@@ -32,9 +32,7 @@ checklist:
 
         3 - Compliance validation (e.g. check if the employee is over 18 years old or if the salary is above a minimum wage or that an ID is uploaded) ❌
 
-        4 - Any other field you think is relevant ❌
-
-    Have at most 10 fields, a simple design using grid or flexbox is enough. ❌
+        4 - Any other field you think is relevant. Have at most 10 fields, a simple design using grid or flexbox is enough. ✅`
 
 ______________________________________________________________________________________________________________
 

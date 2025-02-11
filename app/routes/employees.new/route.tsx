@@ -10,7 +10,6 @@ import { getDB } from "~/db/getDB";
 import { useState, useEffect } from "react";
 import IEmployee from "~/models/interfaces/employee";
 
-// Loader function to fetch employee data for editing
 export const loader = async ({
   params
 }: {
@@ -38,7 +37,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const db = await getDB();
 
   if (params.employeeId) {
-    // Update existing employee if employeeId exists
     await db.run(
       `UPDATE employees SET firstName = ?, lastName = ?, email = ?, position = ?, salary = ?, hireDate = ?, department = ?, isActive = ? WHERE id = ?`,
       [
@@ -54,7 +52,6 @@ export const action: ActionFunction = async ({ request, params }) => {
       ]
     );
   } else {
-    // Insert new employee
     await db.run(
       `INSERT INTO employees (firstName, lastName, email, position, salary, hireDate, department, isActive) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
