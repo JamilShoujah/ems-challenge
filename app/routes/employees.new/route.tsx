@@ -1,5 +1,7 @@
 import { Form, redirect, type ActionFunction } from "react-router";
+import EmailInput from "~/components/emailInput";
 import { getDB } from "~/db/getDB";
+import { useState } from "react";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -10,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
   const salary = parseInt(formData.get("salary") as string, 10);
   const hireDate = formData.get("hireDate");
   const department = formData.get("department");
-  const isActive = formData.get("isActive") === "on"; // assuming a checkbox for active status
+  const isActive = formData.get("isActive") === "on";
 
   const db = await getDB();
   await db.run(
@@ -32,10 +34,26 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function NewEmployeePage() {
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  const handleEmailValidation = (isValid: boolean) => {
+    setIsEmailValid(isValid);
+    setEmailError(isValid ? null : "Invalid email format");
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isEmailValid) {
+      return;
+    }
+    e.currentTarget.submit();
+  };
+
   return (
     <div>
       <h1>Create New Employee</h1>
-      <Form method="post">
+      <Form method="post" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
           <input type="text" name="firstName" id="firstName" required />
@@ -44,10 +62,7 @@ export default function NewEmployeePage() {
           <label htmlFor="lastName">Last Name</label>
           <input type="text" name="lastName" id="lastName" required />
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" required />
-        </div>
+        <EmailInput onValidation={handleEmailValidation} />
         <div>
           <label htmlFor="position">Position</label>
           <input type="text" name="position" id="position" required />
@@ -68,7 +83,9 @@ export default function NewEmployeePage() {
           <label htmlFor="isActive">Active</label>
           <input type="checkbox" name="isActive" id="isActive" />
         </div>
-        <button type="submit">Create Employee</button>
+        <button type="submit" disabled={!isEmailValid}>
+          Create Employee
+        </button>
       </Form>
       <hr />
       <ul>

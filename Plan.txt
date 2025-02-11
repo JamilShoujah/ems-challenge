@@ -8,15 +8,6 @@ Basic Plan
 4 - if time permits, establish a linting system to force all devs working on project to adopt the same coding style.
 5 - if time permits, enhance UI even further (Jamil's note: Assume all users are brain dead, so make a very simple and ituitive UI)
 
-
-below you will see the steps i have taken throughout the project.
-1 - fork original repo and clone fork onto computer
-2 - read, understand, explore and test project to get a better feel for the project
-3 - establish proper base for the project and check for any errors prior to starting development.
-4 - create a new script to run all of the commands needed to start the app (npm run launch)
-5 - edit employee object 
-
-
 checklist:
 
 1 - Single Employee View (/employees/:id & /employees/new)
@@ -29,9 +20,9 @@ checklist:
 
         2 - professional fields (e.g. job title, department, salary, start date, end date...),✅
 
-        3 - fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex ❌
+        3 - fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex ✅
 
-        4 - Navigation buttons to go to the list of employees, ❌
+        4 - Navigation buttons to go to the list of employees, ✅
 
     Bonus
 
