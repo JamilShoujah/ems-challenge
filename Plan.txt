@@ -8,30 +8,21 @@ Basic Plan
 4 - if time permits, establish a linting system to force all devs working on project to adopt the same coding style.
 5 - if time permits, enhance UI even further (Jamil's note: Assume all users are brain dead, so make a very simple and ituitive UI)
 
-
-below you will see the steps i have taken throughout the project.
-1 - fork original repo and clone fork onto computer
-2 - read, understand, explore and test project to get a better feel for the project
-3 - establish proper base for the project and check for any errors prior to starting development.
-4 - create a new script to run all of the commands needed to start the app (npm run launch)
-5 - edit employee object 
-
-
 checklist:
 
 1 - Single Employee View (/employees/:id & /employees/new)
     A page displaying a form used to create and update a single employee, it allows the user to:
         - Create a new employee: ✅
-        - Update an employee's information ❌
+        - Update an employee's information  ✅
 
     Requirements:
         1 - personal fields you want to include (e.g. name, email, phone number, date of birth...),✅
 
         2 - professional fields (e.g. job title, department, salary, start date, end date...),✅
 
-        3 - fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex ❌
+        3 - fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex ✅
 
-        4 - Navigation buttons to go to the list of employees, ❌
+        4 - Navigation buttons to go to the list of employees, ✅
 
     Bonus
 
@@ -41,9 +32,7 @@ checklist:
 
         3 - Compliance validation (e.g. check if the employee is over 18 years old or if the salary is above a minimum wage or that an ID is uploaded) ❌
 
-        4 - Any other field you think is relevant ❌
-
-    Have at most 10 fields, a simple design using grid or flexbox is enough. ❌
+        4 - Any other field you think is relevant. Have at most 10 fields, a simple design using grid or flexbox is enough. ✅`
 
 ______________________________________________________________________________________________________________
 

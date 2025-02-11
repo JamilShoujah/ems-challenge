@@ -7,7 +7,6 @@ export async function loader() {
     "SELECT id, firstName, lastName FROM employees"
   );
 
-  // Combine firstName and lastName to create full_name
   employees.forEach((employee) => {
     employee.full_name = `${employee.firstName} ${employee.lastName}`;
   });
@@ -19,7 +18,7 @@ import type { ActionFunction } from "react-router";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const employee_id = formData.get("employee_id"); // Get selected employee ID
+  const employee_id = formData.get("employee_id");
   const start_time = formData.get("start_time");
   const end_time = formData.get("end_time");
 
@@ -33,8 +32,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function NewTimesheetPage() {
-  const { employees } = useLoaderData(); // Load employee data to populate select input
-
+  const { employees } = useLoaderData();
   return (
     <div>
       <h1>Create New Timesheet</h1>
@@ -45,7 +43,7 @@ export default function NewTimesheetPage() {
             <option value="">Select an employee</option>
             {employees.map((employee: any) => (
               <option key={employee.id} value={employee.id}>
-                {employee.full_name} {/* Display full name */}
+                {employee.full_name}
               </option>
             ))}
           </select>
