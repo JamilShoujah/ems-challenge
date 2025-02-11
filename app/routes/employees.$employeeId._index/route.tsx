@@ -1,52 +1,26 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Using useNavigate instead of useHistory
+import { useLoaderData, useParams, useNavigate } from "react-router-dom";
 import IEmployee from "~/models/interfaces/employee";
+import { getDB } from "~/db/getDB";
 
-// Mock function to fetch employee details (same as before)
-async function getEmployeeById(employeeId: number): Promise<IEmployee | null> {
-  return {
-    id: employeeId,
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    position: "Software Engineer",
-    salary: 75000,
-    hireDate: "2022-05-15",
-    department: "Engineering",
-    isActive: true
-  };
+export async function loader() {
+  const db = await getDB();
+  const employees: IEmployee[] = await db.all("SELECT * FROM employees;");
+  return { employees };
 }
 
 function EmployeePage() {
-  const [employee, setEmployee] = useState<IEmployee | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const { employeeId } = useParams<{ employeeId: string }>(); // Assumes employeeId is in the URL
-  const navigate = useNavigate(); // Replaced useHistory with useNavigate
+  const { employees } = useLoaderData() as { employees: IEmployee[] };
+  const { employeeId } = useParams<{ employeeId: string }>();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      const id = Number(employeeId);
-      if (isNaN(id)) {
-        setError("Invalid Employee ID");
-        return;
-      }
-      const employeeData = await getEmployeeById(id);
-      if (!employeeData) {
-        setError("Employee not found");
-      } else {
-        setEmployee(employeeData);
-      }
-    };
-
-    fetchEmployee();
-  }, [employeeId]);
-
-  if (error) {
-    return <div>{error}</div>;
+  const id = Number(employeeId);
+  if (isNaN(id)) {
+    return <div style={{ color: "red" }}>Invalid Employee ID</div>;
   }
 
+  const employee = employees.find((emp) => emp.id === id);
   if (!employee) {
-    return <div>Loading...</div>;
+    return <div style={{ color: "red" }}>Employee not found</div>;
   }
 
   return (
@@ -76,16 +50,19 @@ function EmployeePage() {
           <strong>Status:</strong> {employee.isActive ? "Active" : "Inactive"}
         </li>
       </ul>
+
       <nav>
         <ul>
           <li>
-            <a href="/employees">Employees</a>
+            <button onClick={() => navigate("/employees")}>Employees</button>
           </li>
           <li>
-            <a href="/employees/new">New Employee</a>
+            <button onClick={() => navigate("/employees/new")}>
+              New Employee
+            </button>
           </li>
           <li>
-            <a href="/timesheets/">Timesheets</a>
+            <button onClick={() => navigate("/timesheets")}>Timesheets</button>
           </li>
         </ul>
       </nav>
