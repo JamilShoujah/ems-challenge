@@ -1,18 +1,69 @@
+import { useLoaderData, useParams, useNavigate } from "react-router-dom";
+import ITimesheet from "~/models/interfaces/timesheet";
+import { getDB } from "~/db/getDB";
+
 export async function loader() {
-  return {}
+  const db = await getDB();
+  const timesheets: ITimesheet[] = await db.all("SELECT * FROM timesheets;");
+  return { timesheets };
 }
 
-export default function TimesheetPage() {
+function TimesheetPage() {
+  const { timesheets } = useLoaderData() as { timesheets: ITimesheet[] };
+  const { timesheetId } = useParams<{ timesheetId: string }>();
+  const navigate = useNavigate();
+
+  const id = Number(timesheetId);
+  if (isNaN(id)) {
+    return <div style={{ color: "red" }}>Invalid Timesheet ID</div>;
+  }
+
+  const timesheet = timesheets.find((ts) => ts.id === id);
+  if (!timesheet) {
+    return <div style={{ color: "red" }}>Timesheet not found</div>;
+  }
+
   return (
     <div>
-      <div>
-        To implement
-      </div>
+      <h1>Timesheet #{timesheet.id}</h1>
       <ul>
-        <li><a href="/timesheets">Timesheets</a></li>
-        <li><a href="/timesheets/new">New Timesheet</a></li>
-        <li><a href="/employees/">Employees</a></li>
+        <li>
+          <strong>Full Name:</strong> {timesheet.full_name}
+        </li>
+        <li>
+          <strong>Start Time:</strong>{" "}
+          {new Date(timesheet.start_time).toLocaleString()}
+        </li>
+        <li>
+          <strong>End Time:</strong>{" "}
+          {new Date(timesheet.end_time).toLocaleString()}
+        </li>
+        <li>
+          <strong>Employee ID:</strong> {timesheet.employee_id}
+        </li>
       </ul>
+
+      <button onClick={() => navigate(`/timesheets/${timesheet.id}/edit`)}>
+        Edit
+      </button>
+
+      <nav>
+        <ul>
+          <li>
+            <button onClick={() => navigate("/timesheets")}>Timesheets</button>
+          </li>
+          <li>
+            <button onClick={() => navigate("/timesheets/new")}>
+              New Timesheet
+            </button>
+          </li>
+          <li>
+            <button onClick={() => navigate("/employees")}>Employees</button>
+          </li>
+        </ul>
+      </nav>
     </div>
-  )
+  );
 }
+
+export default TimesheetPage;
