@@ -14,7 +14,6 @@ export default function EmployeesPage() {
   const { employees } = useLoaderData();
   return (
     <div>
-      <p>Hello world</p>
       <div>
         {employees.map((employee: IEmployee) => (
           <EmployeeCell employee={employee} />

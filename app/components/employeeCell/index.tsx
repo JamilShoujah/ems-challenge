@@ -1,10 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import IEmployee from "~/models/interfaces/employee";
-
-interface EmployeeDetailsProps {
-  employee: IEmployee;
-}
+import EmployeeDetailsProps from "~/models/interfaces/employeeDetails";
 
 const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({ employee }) => {
   const navigate = useNavigate();
@@ -20,17 +15,26 @@ const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({ employee }) => {
         cursor: "pointer",
         padding: "10px",
         borderRadius: "5px",
+        margin: "10px",
         background: "#f5f5f5"
       }}
     >
       <ul>
-        <li>Employee #{employee.id}</li>
-        <ul>
-          <li>
-            Full Name: {employee.firstName} {employee.lastName}
-          </li>
-          <li>Email: {employee.email}</li>
-        </ul>
+        <li>
+          <strong>Full Name:</strong> {employee.firstName} {employee.lastName}
+        </li>
+        <li>
+          <strong>Email:</strong> {employee.email}
+        </li>
+        <li>
+          <strong>Position:</strong> {employee.position}
+        </li>
+        <li>
+          <strong>Department:</strong> {employee.department}
+        </li>
+        <li>
+          <strong>Status:</strong> {employee.isActive ? "Active" : "Inactive"}
+        </li>
       </ul>
     </div>
   );

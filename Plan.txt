@@ -47,7 +47,7 @@ ________________________________________________________________________________
 
         1 - Have a link for each row leading to the single employee view of the employee, ✅
 
-        2 - No more than 5 relevant columns,❌
+        2 - No more than 5 relevant columns, ✅
 
         3 - Navigation buttons to go to the new employee page and the list of timesheets, ✅
 
