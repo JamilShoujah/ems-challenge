@@ -3,26 +3,24 @@ import {
   redirect,
   type ActionFunction,
   useLoaderData,
-  useParams
-} from "react-router";
-import EmailInput from "~/components/emailInput";
+  useNavigate
+} from "react-router-dom";
 import { getDB } from "~/db/getDB";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import EmailInput from "~/components/emailInput";
 import IEmployee from "~/models/interfaces/employee";
 
-// Loader function to fetch employee data for editing
-export const loader = async ({
-  params
-}: {
-  params: { employeeId: string };
-}) => {
+export async function loader({ params }: { params: { employeeId: string } }) {
   const db = await getDB();
-  const employee: IEmployee | undefined = await db.get(
+  const employee = await db.get(
     "SELECT * FROM employees WHERE id = ?",
-    [params.employeeId]
+    params.employeeId
   );
+  if (!employee) {
+    throw new Response("Employee not found", { status: 404 });
+  }
   return { employee };
-};
+}
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
@@ -36,77 +34,49 @@ export const action: ActionFunction = async ({ request, params }) => {
   const isActive = formData.get("isActive") === "on";
 
   const db = await getDB();
+  await db.run(
+    `UPDATE employees 
+     SET firstName = ?, lastName = ?, email = ?, position = ?, salary = ?, hireDate = ?, department = ?, isActive = ?
+     WHERE id = ?`,
+    [
+      firstName,
+      lastName,
+      email,
+      position,
+      salary,
+      hireDate,
+      department,
+      isActive,
+      params.employeeId
+    ]
+  );
 
-  if (params.employeeId) {
-    // Update existing employee if employeeId exists
-    await db.run(
-      `UPDATE employees SET firstName = ?, lastName = ?, email = ?, position = ?, salary = ?, hireDate = ?, department = ?, isActive = ? WHERE id = ?`,
-      [
-        firstName,
-        lastName,
-        email,
-        position,
-        salary,
-        hireDate,
-        department,
-        isActive,
-        params.employeeId
-      ]
-    );
-  } else {
-    // Insert new employee
-    await db.run(
-      `INSERT INTO employees (firstName, lastName, email, position, salary, hireDate, department, isActive) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        firstName,
-        lastName,
-        email,
-        position,
-        salary,
-        hireDate,
-        department,
-        isActive
-      ]
-    );
-  }
-
-  return redirect("/employees");
+  return redirect(`/employees/${params.employeeId}`);
 };
 
-export default function EmployeeFormPage() {
-  const { employee } = useLoaderData() as { employee: IEmployee | undefined };
-  const { employeeId } = useParams<{ employeeId: string }>();
-  const [isEmailValid, setIsEmailValid] = useState(false);
+export default function EditEmployeePage() {
+  const { employee } = useLoaderData() as { employee: IEmployee };
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleEmailValidation = (isValid: boolean) => {
     setIsEmailValid(isValid);
     setEmailError(isValid ? null : "Invalid email format");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isEmailValid) {
-      return;
-    }
-    e.currentTarget.submit();
-  };
-
   return (
     <div>
-      <h1>
-        {employeeId ? `Edit Employee #${employee?.id}` : "Create New Employee"}
-      </h1>
-      <Form method="post" onSubmit={handleSubmit}>
+      <h1>Edit Employee #{employee.id}</h1>
+      <Form method="post">
         <div>
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"
             name="firstName"
             id="firstName"
+            defaultValue={employee.firstName}
             required
-            defaultValue={employee?.firstName || ""}
           />
         </div>
         <div>
@@ -115,13 +85,13 @@ export default function EmployeeFormPage() {
             type="text"
             name="lastName"
             id="lastName"
+            defaultValue={employee.lastName}
             required
-            defaultValue={employee?.lastName || ""}
           />
         </div>
         <EmailInput
           onValidation={handleEmailValidation}
-          initialEmail={employee?.email}
+          initialEmail={employee.email}
         />
         <div>
           <label htmlFor="position">Position</label>
@@ -129,8 +99,8 @@ export default function EmployeeFormPage() {
             type="text"
             name="position"
             id="position"
+            defaultValue={employee.position}
             required
-            defaultValue={employee?.position || ""}
           />
         </div>
         <div>
@@ -139,8 +109,8 @@ export default function EmployeeFormPage() {
             type="number"
             name="salary"
             id="salary"
+            defaultValue={employee.salary}
             required
-            defaultValue={employee?.salary || 0}
           />
         </div>
         <div>
@@ -149,8 +119,8 @@ export default function EmployeeFormPage() {
             type="date"
             name="hireDate"
             id="hireDate"
+            defaultValue={employee.hireDate}
             required
-            defaultValue={employee?.hireDate || ""}
           />
         </div>
         <div>
@@ -159,8 +129,8 @@ export default function EmployeeFormPage() {
             type="text"
             name="department"
             id="department"
+            defaultValue={employee.department}
             required
-            defaultValue={employee?.department || ""}
           />
         </div>
         <div>
@@ -169,15 +139,18 @@ export default function EmployeeFormPage() {
             type="checkbox"
             name="isActive"
             id="isActive"
-            defaultChecked={employee?.isActive}
+            defaultChecked={employee.isActive}
           />
         </div>
         <button type="submit" disabled={!isEmailValid}>
-          {employeeId ? "Update Employee" : "Create Employee"}
+          Save Changes
         </button>
       </Form>
       <hr />
       <ul>
+        <li>
+          <a href={`/employees/${employee.id}`}>Back to Employee</a>
+        </li>
         <li>
           <a href="/employees">Employees</a>
         </li>

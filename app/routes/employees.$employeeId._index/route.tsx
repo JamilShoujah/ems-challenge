@@ -51,6 +51,11 @@ function EmployeePage() {
         </li>
       </ul>
 
+      {/* Edit button */}
+      <button onClick={() => navigate(`/employees/${employee.id}/edit`)}>
+        Edit
+      </button>
+
       <nav>
         <ul>
           <li>

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { isValidEmail } from "~/functions/emailValidation";
 
 const EmailInput = ({
-  onValidation
+  onValidation,
+  initialEmail = "" // Default to empty string
 }: {
   onValidation: (isValid: boolean) => void;
+  initialEmail?: string;
 }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [error, setError] = useState<string | null>(null);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
