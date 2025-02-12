@@ -31,9 +31,12 @@ export default function TimesheetsPage() {
 
       {isTableView ? (
         <div>
-          {timesheetsAndEmployees.map((timesheet: ITimesheet) => (
-            <TimesheetDetails timesheet={timesheet} />
-          ))}
+          {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
+            console.log("Timesheet data:", timesheet); // Log each timesheet
+            return (
+              <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
+            );
+          })}
         </div>
       ) : (
         <div>

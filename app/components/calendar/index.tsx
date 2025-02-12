@@ -10,7 +10,7 @@ function MyCalendar() {
         id: "1",
         title: "Event 1",
         start: "2025-01-01 02:00", // Date-only format (YYYY-MM-DD)
-        end: "2025-01-01 05:00" // Date-only format (YYYY-MM-DD)
+        end: "2025-01-01 20:00" // Date-only format (YYYY-MM-DD) //24 Hour format
       }
     ]
     // selectedDate: "2025-01-01" // Ensure this is in the correct format
