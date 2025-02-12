@@ -7,7 +7,7 @@ import {
 } from "react-router";
 import EmailInput from "~/components/emailInput";
 import { getDB } from "~/db/getDB";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import IEmployee from "~/models/interfaces/employee";
 
 export const loader = async ({

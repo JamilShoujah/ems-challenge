@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import EmployeeDetailsProps from "~/models/interfaces/employeeDetails";
+import "./index.css";
 
 const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({ employee }) => {
   const navigate = useNavigate();
@@ -9,16 +10,7 @@ const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({ employee }) => {
   };
 
   return (
-    <div
-      onClick={handleNavigate}
-      style={{
-        cursor: "pointer",
-        padding: "10px",
-        borderRadius: "5px",
-        margin: "10px",
-        background: "#f5f5f5"
-      }}
-    >
+    <div className="employee-details" onClick={handleNavigate}>
       <ul>
         <li>
           <strong>Full Name:</strong> {employee.firstName} {employee.lastName}
@@ -33,7 +25,12 @@ const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({ employee }) => {
           <strong>Department:</strong> {employee.department}
         </li>
         <li>
-          <strong>Status:</strong> {employee.isActive ? "Active" : "Inactive"}
+          <strong>Status:</strong>{" "}
+          <span
+            className={employee.isActive ? "status-active" : "status-inactive"}
+          >
+            {employee.isActive ? "Active" : "Inactive"}
+          </span>
         </li>
       </ul>
     </div>

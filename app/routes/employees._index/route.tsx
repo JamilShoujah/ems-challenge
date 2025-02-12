@@ -1,37 +1,30 @@
 import { useLoaderData } from "react-router";
 import EmployeeCell from "~/components/employeeCell";
-import { getDB } from "~/db/getDB";
+import { getAllEmployees } from "~/db/queries/employeeQueries";
 import IEmployee from "~/models/interfaces/employee";
+import "./index.css";
 
 export async function loader() {
-  const db = await getDB();
-  const employees = await db.all("SELECT * FROM employees;");
-
-  return { employees };
+  try {
+    const employees = await getAllEmployees();
+    return { employees };
+  } catch (error) {
+    throw new Response("Failed to load employees.", { status: 500 });
+  }
 }
 
-export default function EmployeesPage() {
-  const { employees } = useLoaderData();
+const EmployeesPage = () => {
+  const { employees } = useLoaderData() as { employees: IEmployee[] };
   return (
-    <div>
-      <div>
-        {employees.map((employee: IEmployee) => {
-          console.log(employee);
-          return <EmployeeCell employee={employee} />;
-        })}
+    <div style={{ paddingTop: "70px" }}>
+      <div className="employee-grid">
+        {employees.map((employee) => (
+          <EmployeeCell key={employee.id} employee={employee} />
+        ))}
       </div>
       <hr />
-      <ul>
-        <li>
-          <a href="/employees/new">New Employee</a>
-        </li>
-        <li>
-          <a href="/timesheets/">Timesheets</a>
-        </li>
-        <li>
-          <a href="/">home</a>
-        </li>
-      </ul>
     </div>
   );
-}
+};
+
+export default EmployeesPage;

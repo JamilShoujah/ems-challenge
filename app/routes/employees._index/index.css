@@ -1,0 +1,11 @@
+.employee-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.employee-grid > * {
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+  box-sizing: border-box;
+}
