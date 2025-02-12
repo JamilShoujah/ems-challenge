@@ -3,6 +3,7 @@ import { useState } from "react";
 import { getDB } from "~/db/getDB";
 import TimesheetDetails from "~/components/timesheetCell";
 import ITimesheet from "~/models/interfaces/timesheet";
+import MyCalendar from "~/components/calendar";
 
 export async function loader() {
   const db = await getDB();
@@ -30,19 +31,16 @@ export default function TimesheetsPage() {
 
       {isTableView ? (
         <div>
-          {timesheetsAndEmployees.map((timesheet: ITimesheet) => (
-            <TimesheetDetails timesheet={timesheet} />
-          ))}
+          {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
+            console.log("Timesheet data:", timesheet);
+            return (
+              <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
+            );
+          })}
         </div>
       ) : (
         <div>
-          <p>
-            To implement, see{" "}
-            <a href="https://schedule-x.dev/docs/frameworks/react">
-              Schedule X React documentation
-            </a>
-            .
-          </p>
+          <MyCalendar timesheets={timesheetsAndEmployees} />
         </div>
       )}
 

@@ -15,28 +15,42 @@ export async function loader({ params }: { params: { timesheetId: string } }) {
     "SELECT * FROM timesheets WHERE id = ?",
     params.timesheetId
   );
+
   if (!timesheet) {
     throw new Response("Timesheet not found", { status: 404 });
   }
+
   return { timesheet };
 }
+
+const formatDateTimeForDB = (dateTime: string) => {
+  return new Date(dateTime).toISOString().replace("T", " ").slice(0, 16);
+};
+
+const formatDateTimeForInput = (dateTime: string) => {
+  return dateTime.replace(" ", "T");
+};
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
   const start_time = formData.get("start_time");
   const end_time = formData.get("end_time");
 
+  const formattedStartTime = formatDateTimeForDB(start_time as string);
+  const formattedEndTime = formatDateTimeForDB(end_time as string);
+
   const db = await getDB();
   await db.run(
     `UPDATE timesheets 
      SET start_time = ?, end_time = ? 
      WHERE id = ?`,
-    [start_time, end_time, params.timesheetId]
+    [formattedStartTime, formattedEndTime, params.timesheetId]
   );
 
   return redirect(`/timesheets/${params.timesheetId}`);
 };
 
+// Component for editing a timesheet
 export default function EditTimesheetPage() {
   const { timesheet } = useLoaderData() as { timesheet: ITimesheet };
   const [isStartTimeValid, setIsStartTimeValid] = useState(true);
@@ -53,9 +67,7 @@ export default function EditTimesheetPage() {
             type="datetime-local"
             name="start_time"
             id="start_time"
-            defaultValue={new Date(timesheet.start_time)
-              .toISOString()
-              .slice(0, 16)}
+            defaultValue={formatDateTimeForInput(timesheet.start_time)}
             required
             onChange={(e) => setIsStartTimeValid(e.target.value !== "")}
           />
@@ -66,9 +78,7 @@ export default function EditTimesheetPage() {
             type="datetime-local"
             name="end_time"
             id="end_time"
-            defaultValue={new Date(timesheet.end_time)
-              .toISOString()
-              .slice(0, 16)}
+            defaultValue={formatDateTimeForInput(timesheet.end_time)}
             required
             onChange={(e) => setIsEndTimeValid(e.target.value !== "")}
           />

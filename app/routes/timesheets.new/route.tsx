@@ -32,10 +32,16 @@ export const action: ActionFunction = async ({ request }) => {
 
   const full_name = `${employee.firstName} ${employee.lastName}`;
 
-  // Insert timesheet with full_name
+  const formatDateTime = (dateTime: string) => {
+    return new Date(dateTime).toISOString().replace("T", " ").slice(0, 16);
+  };
+
+  const formattedStartTime = formatDateTime(start_time as string);
+  const formattedEndTime = formatDateTime(end_time as string);
+
   await db.run(
     "INSERT INTO timesheets (employee_id, start_time, end_time, full_name) VALUES (?, ?, ?, ?)",
-    [employee_id, start_time, end_time, full_name]
+    [employee_id, formattedStartTime, formattedEndTime, full_name]
   );
 
   return redirect("/timesheets");
