@@ -67,21 +67,21 @@ ________________________________________________________________________________
     Create/Update Form
     A page displaying a form used to create and update a single timesheet, it allows the user to:
         - Create a new timesheet ✅
-        - Update a timesheet's information ❌
+        - Update a timesheet's information ✅
 
     Requirements
 
-        1 - Start and end time fields 
+        1 - Start and end time fields ✅
 
-        2 - Employee field (dropdown with the list of employees)
+        2 - Employee field (dropdown with the list of employees)✅
 
-        3 - Navigation buttons to go to the employee, to the list of employees or to the list of timesheets
+        3 - Navigation buttons to go to the employee, to the list of employees or to the list of timesheets ✅
 
     Bonus
 
-        4 - Validation: start time is before end time, end time is after start time.
+        4 - Validation: start time is before end time, end time is after start time. ❌
 
-        5 - Summary: a text input specifying the work done during the timesheet period
+        5 - Summary: a text input specifying the work done during the timesheet period ❌
 
 ______________________________________________________________________________________________________________
 
@@ -94,15 +94,15 @@ ________________________________________________________________________________
 
     1 - Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it 
 
-    2 - A table view similar to the employee's table view with links to the single timesheet view
+    2 - A table view similar to the employee's table view with links to the single timesheet view  ✅
 
-    3 - A toggle to switch between calendar and table views
+    3 - A toggle to switch between calendar and table views  ✅
 
     Bonus
 
-    1 - Search bar
+    1 - Search bar ❌
 
-    2 - Filtering by employee
+    2 - Filtering by employee ❌
     
 ______________________________________________________________________________________________________________
 
