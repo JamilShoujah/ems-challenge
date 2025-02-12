@@ -1,6 +1,7 @@
 import { useLoaderData, useParams, useNavigate } from "react-router-dom";
 import IEmployee from "~/models/interfaces/employee";
 import { getDB } from "~/db/getDB";
+import Layout from "~/layout/layout";
 
 export async function loader() {
   const db = await getDB();
@@ -24,53 +25,57 @@ function EmployeePage() {
   }
 
   return (
-    <div>
-      <h1>Employee #{employee.id}</h1>
-      <ul>
-        <li>
-          <strong>Full Name:</strong> {employee.firstName} {employee.lastName}
-        </li>
-        <li>
-          <strong>Email:</strong> {employee.email}
-        </li>
-        <li>
-          <strong>Position:</strong> {employee.position}
-        </li>
-        <li>
-          <strong>Salary:</strong> ${employee.salary.toLocaleString()}
-        </li>
-        <li>
-          <strong>Hire Date:</strong>{" "}
-          {new Date(employee.hireDate).toDateString()}
-        </li>
-        <li>
-          <strong>Department:</strong> {employee.department}
-        </li>
-        <li>
-          <strong>Status:</strong> {employee.isActive ? "Active" : "Inactive"}
-        </li>
-      </ul>
-
-      <button onClick={() => navigate(`/employees/${employee.id}/edit`)}>
-        Edit
-      </button>
-
-      <nav>
+    <Layout>
+      <div>
+        <h1>Employee #{employee.id}</h1>
         <ul>
           <li>
-            <button onClick={() => navigate("/employees")}>Employees</button>
+            <strong>Full Name:</strong> {employee.firstName} {employee.lastName}
           </li>
           <li>
-            <button onClick={() => navigate("/employees/new")}>
-              New Employee
-            </button>
+            <strong>Email:</strong> {employee.email}
           </li>
           <li>
-            <button onClick={() => navigate("/timesheets")}>Timesheets</button>
+            <strong>Position:</strong> {employee.position}
+          </li>
+          <li>
+            <strong>Salary:</strong> ${employee.salary.toLocaleString()}
+          </li>
+          <li>
+            <strong>Hire Date:</strong>{" "}
+            {new Date(employee.hireDate).toDateString()}
+          </li>
+          <li>
+            <strong>Department:</strong> {employee.department}
+          </li>
+          <li>
+            <strong>Status:</strong> {employee.isActive ? "Active" : "Inactive"}
           </li>
         </ul>
-      </nav>
-    </div>
+
+        <button onClick={() => navigate(`/employees/${employee.id}/edit`)}>
+          Edit
+        </button>
+
+        <nav>
+          <ul>
+            <li>
+              <button onClick={() => navigate("/employees")}>Employees</button>
+            </li>
+            <li>
+              <button onClick={() => navigate("/employees/new")}>
+                New Employee
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigate("/timesheets")}>
+                Timesheets
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </Layout>
   );
 }
 

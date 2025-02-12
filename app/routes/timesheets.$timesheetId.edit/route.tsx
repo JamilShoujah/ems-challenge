@@ -8,6 +8,7 @@ import {
 import { getDB } from "~/db/getDB";
 import { useState } from "react";
 import ITimesheet from "~/models/interfaces/timesheet";
+import Layout from "~/layout/layout";
 
 export async function loader({ params }: { params: { timesheetId: string } }) {
   const db = await getDB();
@@ -50,7 +51,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect(`/timesheets/${params.timesheetId}`);
 };
 
-// Component for editing a timesheet
 export default function EditTimesheetPage() {
   const { timesheet } = useLoaderData() as { timesheet: ITimesheet };
   const [isStartTimeValid, setIsStartTimeValid] = useState(true);
@@ -58,47 +58,49 @@ export default function EditTimesheetPage() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Edit Timesheet #{timesheet.id}</h1>
-      <Form method="post">
-        <div>
-          <label htmlFor="start_time">Start Time</label>
-          <input
-            type="datetime-local"
-            name="start_time"
-            id="start_time"
-            defaultValue={formatDateTimeForInput(timesheet.start_time)}
-            required
-            onChange={(e) => setIsStartTimeValid(e.target.value !== "")}
-          />
-        </div>
-        <div>
-          <label htmlFor="end_time">End Time</label>
-          <input
-            type="datetime-local"
-            name="end_time"
-            id="end_time"
-            defaultValue={formatDateTimeForInput(timesheet.end_time)}
-            required
-            onChange={(e) => setIsEndTimeValid(e.target.value !== "")}
-          />
-        </div>
-        <button type="submit" disabled={!isStartTimeValid || !isEndTimeValid}>
-          Save Changes
-        </button>
-      </Form>
-      <hr />
-      <ul>
-        <li>
-          <a href={`/timesheets/${timesheet.id}`}>Back to Timesheet</a>
-        </li>
-        <li>
-          <a href="/timesheets">Timesheets</a>
-        </li>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-      </ul>
-    </div>
+    <Layout>
+      <div>
+        <h1>Edit Timesheet #{timesheet.id}</h1>
+        <Form method="post">
+          <div>
+            <label htmlFor="start_time">Start Time</label>
+            <input
+              type="datetime-local"
+              name="start_time"
+              id="start_time"
+              defaultValue={formatDateTimeForInput(timesheet.start_time)}
+              required
+              onChange={(e) => setIsStartTimeValid(e.target.value !== "")}
+            />
+          </div>
+          <div>
+            <label htmlFor="end_time">End Time</label>
+            <input
+              type="datetime-local"
+              name="end_time"
+              id="end_time"
+              defaultValue={formatDateTimeForInput(timesheet.end_time)}
+              required
+              onChange={(e) => setIsEndTimeValid(e.target.value !== "")}
+            />
+          </div>
+          <button type="submit" disabled={!isStartTimeValid || !isEndTimeValid}>
+            Save Changes
+          </button>
+        </Form>
+        <hr />
+        <ul>
+          <li>
+            <a href={`/timesheets/${timesheet.id}`}>Back to Timesheet</a>
+          </li>
+          <li>
+            <a href="/timesheets">Timesheets</a>
+          </li>
+          <li>
+            <a href="/employees">Employees</a>
+          </li>
+        </ul>
+      </div>
+    </Layout>
   );
 }

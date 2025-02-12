@@ -1,6 +1,7 @@
 import { useLoaderData, useParams, useNavigate } from "react-router-dom";
 import ITimesheet from "~/models/interfaces/timesheet";
 import { getDB } from "~/db/getDB";
+import Layout from "~/layout/layout";
 
 export async function loader() {
   const db = await getDB();
@@ -24,45 +25,49 @@ function TimesheetPage() {
   }
 
   return (
-    <div>
-      <h1>Timesheet #{timesheet.id}</h1>
-      <ul>
-        <li>
-          <strong>Full Name:</strong> {timesheet.full_name}
-        </li>
-        <li>
-          <strong>Start Time:</strong>{" "}
-          {new Date(timesheet.start_time).toLocaleString()}
-        </li>
-        <li>
-          <strong>End Time:</strong>{" "}
-          {new Date(timesheet.end_time).toLocaleString()}
-        </li>
-        <li>
-          <strong>Employee ID:</strong> {timesheet.employee_id}
-        </li>
-      </ul>
-
-      <button onClick={() => navigate(`/timesheets/${timesheet.id}/edit`)}>
-        Edit
-      </button>
-
-      <nav>
+    <Layout>
+      <div>
+        <h1>Timesheet #{timesheet.id}</h1>
         <ul>
           <li>
-            <button onClick={() => navigate("/timesheets")}>Timesheets</button>
+            <strong>Full Name:</strong> {timesheet.full_name}
           </li>
           <li>
-            <button onClick={() => navigate("/timesheets/new")}>
-              New Timesheet
-            </button>
+            <strong>Start Time:</strong>{" "}
+            {new Date(timesheet.start_time).toLocaleString()}
           </li>
           <li>
-            <button onClick={() => navigate("/employees")}>Employees</button>
+            <strong>End Time:</strong>{" "}
+            {new Date(timesheet.end_time).toLocaleString()}
+          </li>
+          <li>
+            <strong>Employee ID:</strong> {timesheet.employee_id}
           </li>
         </ul>
-      </nav>
-    </div>
+
+        <button onClick={() => navigate(`/timesheets/${timesheet.id}/edit`)}>
+          Edit
+        </button>
+
+        <nav>
+          <ul>
+            <li>
+              <button onClick={() => navigate("/timesheets")}>
+                Timesheets
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigate("/timesheets/new")}>
+                New Timesheet
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigate("/employees")}>Employees</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </Layout>
   );
 }
 

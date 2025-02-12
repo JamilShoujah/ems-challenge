@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router";
 import EmployeeCell from "~/components/employeeCell";
 import { getAllEmployees } from "~/db/queries/employeeQueries";
 import IEmployee from "~/models/interfaces/employee";
+import Layout from "~/layout/layout";
 import "./index.css";
 
 export async function loader() {
@@ -16,14 +17,14 @@ export async function loader() {
 const EmployeesPage = () => {
   const { employees } = useLoaderData() as { employees: IEmployee[] };
   return (
-    <div style={{ paddingTop: "70px" }}>
+    <Layout>
       <div className="employee-grid">
         {employees.map((employee) => (
           <EmployeeCell key={employee.id} employee={employee} />
         ))}
       </div>
       <hr />
-    </div>
+    </Layout>
   );
 };
 

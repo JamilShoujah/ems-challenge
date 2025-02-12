@@ -4,6 +4,7 @@ import { getDB } from "~/db/getDB";
 import TimesheetDetails from "~/components/timesheetCell";
 import ITimesheet from "~/models/interfaces/timesheet";
 import MyCalendar from "~/components/calendar";
+import Layout from "~/layout/layout";
 
 export async function loader() {
   const db = await getDB();
@@ -23,39 +24,41 @@ export default function TimesheetsPage() {
   };
 
   return (
-    <div>
+    <Layout>
       <div>
-        <button onClick={handleViewChange}>Table View</button>
-        <button onClick={handleViewChange}>Calendar View</button>
+        <div>
+          <button onClick={handleViewChange}>Table View</button>
+          <button onClick={handleViewChange}>Calendar View</button>
+        </div>
+
+        {isTableView ? (
+          <div>
+            {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
+              console.log("Timesheet data:", timesheet);
+              return (
+                <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
+              );
+            })}
+          </div>
+        ) : (
+          <div>
+            <MyCalendar timesheets={timesheetsAndEmployees} />
+          </div>
+        )}
+
+        <hr />
+        <ul>
+          <li>
+            <a href="/timesheets/new">New Timesheet</a>
+          </li>
+          <li>
+            <a href="/employees">Employees</a>
+          </li>
+          <li>
+            <a href="/">Home</a>
+          </li>
+        </ul>
       </div>
-
-      {isTableView ? (
-        <div>
-          {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
-            console.log("Timesheet data:", timesheet);
-            return (
-              <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
-            );
-          })}
-        </div>
-      ) : (
-        <div>
-          <MyCalendar timesheets={timesheetsAndEmployees} />
-        </div>
-      )}
-
-      <hr />
-      <ul>
-        <li>
-          <a href="/timesheets/new">New Timesheet</a>
-        </li>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-        <li>
-          <a href="/">Home</a>
-        </li>
-      </ul>
-    </div>
+    </Layout>
   );
 }

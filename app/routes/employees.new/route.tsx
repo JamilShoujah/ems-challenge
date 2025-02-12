@@ -9,6 +9,7 @@ import EmailInput from "~/components/emailInput";
 import { getDB } from "~/db/getDB";
 import { useState } from "react";
 import IEmployee from "~/models/interfaces/employee";
+import Layout from "~/layout/layout";
 
 export const loader = async ({
   params
@@ -91,97 +92,101 @@ export default function EmployeeFormPage() {
   };
 
   return (
-    <div>
-      <h1>
-        {employeeId ? `Edit Employee #${employee?.id}` : "Create New Employee"}
-      </h1>
-      <Form method="post" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            name="firstName"
-            id="firstName"
-            required
-            defaultValue={employee?.firstName || ""}
+    <Layout>
+      <div>
+        <h1>
+          {employeeId
+            ? `Edit Employee #${employee?.id}`
+            : "Create New Employee"}
+        </h1>
+        <Form method="post" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              required
+              defaultValue={employee?.firstName || ""}
+            />
+          </div>
+          <div>
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              required
+              defaultValue={employee?.lastName || ""}
+            />
+          </div>
+          <EmailInput
+            onValidation={handleEmailValidation}
+            initialEmail={employee?.email}
           />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            required
-            defaultValue={employee?.lastName || ""}
-          />
-        </div>
-        <EmailInput
-          onValidation={handleEmailValidation}
-          initialEmail={employee?.email}
-        />
-        <div>
-          <label htmlFor="position">Position</label>
-          <input
-            type="text"
-            name="position"
-            id="position"
-            required
-            defaultValue={employee?.position || ""}
-          />
-        </div>
-        <div>
-          <label htmlFor="salary">Salary</label>
-          <input
-            type="number"
-            name="salary"
-            id="salary"
-            required
-            defaultValue={employee?.salary || 0}
-          />
-        </div>
-        <div>
-          <label htmlFor="hireDate">Hire Date</label>
-          <input
-            type="date"
-            name="hireDate"
-            id="hireDate"
-            required
-            defaultValue={employee?.hireDate || ""}
-          />
-        </div>
-        <div>
-          <label htmlFor="department">Department</label>
-          <input
-            type="text"
-            name="department"
-            id="department"
-            required
-            defaultValue={employee?.department || ""}
-          />
-        </div>
-        <div>
-          <label htmlFor="isActive">Active</label>
-          <input
-            type="checkbox"
-            name="isActive"
-            id="isActive"
-            defaultChecked={employee?.isActive}
-          />
-        </div>
-        <button type="submit" disabled={!isEmailValid}>
-          {employeeId ? "Update Employee" : "Create Employee"}
-        </button>
-      </Form>
-      <hr />
-      <ul>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-        <li>
-          <a href="/timesheets">Timesheets</a>
-        </li>
-      </ul>
-    </div>
+          <div>
+            <label htmlFor="position">Position</label>
+            <input
+              type="text"
+              name="position"
+              id="position"
+              required
+              defaultValue={employee?.position || ""}
+            />
+          </div>
+          <div>
+            <label htmlFor="salary">Salary</label>
+            <input
+              type="number"
+              name="salary"
+              id="salary"
+              required
+              defaultValue={employee?.salary || 0}
+            />
+          </div>
+          <div>
+            <label htmlFor="hireDate">Hire Date</label>
+            <input
+              type="date"
+              name="hireDate"
+              id="hireDate"
+              required
+              defaultValue={employee?.hireDate || ""}
+            />
+          </div>
+          <div>
+            <label htmlFor="department">Department</label>
+            <input
+              type="text"
+              name="department"
+              id="department"
+              required
+              defaultValue={employee?.department || ""}
+            />
+          </div>
+          <div>
+            <label htmlFor="isActive">Active</label>
+            <input
+              type="checkbox"
+              name="isActive"
+              id="isActive"
+              defaultChecked={employee?.isActive}
+            />
+          </div>
+          <button type="submit" disabled={!isEmailValid}>
+            {employeeId ? "Update Employee" : "Create Employee"}
+          </button>
+        </Form>
+        <hr />
+        <ul>
+          <li>
+            <a href="/employees">Employees</a>
+          </li>
+          <li>
+            <a href="/timesheets">Timesheets</a>
+          </li>
+        </ul>
+      </div>
+    </Layout>
   );
 }
