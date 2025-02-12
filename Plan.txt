@@ -2,11 +2,12 @@ This file servers to demonstrate my thought process while woeking on this projec
 In other words, it gives insight on what im think, how im thing, and why i chose to do what i did
 
 Basic Plan
-1 - complete the app's functionality. Id personally rather have a functioning app rather than an app thats beautiful and non functional.
-2 - when functionality is complete, work on the design of the page to improve user experience
-3 - if time permits, optimize project, create valid react components for better code reusability and maintenance
-4 - if time permits, establish a linting system to force all devs working on project to adopt the same coding style.
-5 - if time permits, enhance UI even further (Jamil's note: Assume all users are brain dead, so make a very simple and ituitive UI)
+1 - complete the app's functionality.
+2 - reorganize app to make it more maintainable
+3 - work on bonus features
+4 - create better UI
+5 - tackle extra not required challenges
+6 - establish linting if possible 
 
 checklist:
 
@@ -92,7 +93,7 @@ ________________________________________________________________________________
 
     Requirements
 
-    1 - Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it 
+    1 - Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it ✅
 
     2 - A table view similar to the employee's table view with links to the single timesheet view  ✅
 
@@ -106,7 +107,7 @@ ________________________________________________________________________________
     
 ______________________________________________________________________________________________________________
 
-5 - What is not required but i should do
+5 - What is not required but i can do
     - Styling, but the app should be usable; if you want to style, uncomment the tailwind code in `app.css` to use tailwind or write your own styles there without tailwind or any other library.
     - Authentication, authorization.
     - Tests, but they are always welcome.

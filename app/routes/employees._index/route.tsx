@@ -15,9 +15,10 @@ export default function EmployeesPage() {
   return (
     <div>
       <div>
-        {employees.map((employee: IEmployee) => (
-          <EmployeeCell employee={employee} />
-        ))}
+        {employees.map((employee: IEmployee) => {
+          console.log(employee);
+          return <EmployeeCell employee={employee} />;
+        })}
       </div>
       <hr />
       <ul>

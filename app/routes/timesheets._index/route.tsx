@@ -32,7 +32,7 @@ export default function TimesheetsPage() {
       {isTableView ? (
         <div>
           {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
-            console.log("Timesheet data:", timesheet); // Log each timesheet
+            console.log("Timesheet data:", timesheet);
             return (
               <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
             );
@@ -40,8 +40,7 @@ export default function TimesheetsPage() {
         </div>
       ) : (
         <div>
-          <p>hello world</p>
-          <MyCalendar />
+          <MyCalendar timesheets={timesheetsAndEmployees} />
         </div>
       )}
 
