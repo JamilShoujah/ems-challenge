@@ -30,3 +30,42 @@ export async function getEmployeeById(id: number): Promise<IEmployee | null> {
     );
   }
 }
+
+export async function updateEmployeeById(
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  position: string,
+  salary: number,
+  hireDate: string,
+  department: string,
+  isActive: boolean
+): Promise<void> {
+  try {
+    const db = await getDB();
+    await db.run(
+      `UPDATE employees 
+       SET firstName = ?, lastName = ?, email = ?, position = ?, salary = ?, hireDate = ?, department = ?, isActive = ?
+       WHERE id = ?`,
+      [
+        firstName,
+        lastName,
+        email,
+        position,
+        salary,
+        hireDate,
+        department,
+        isActive,
+        id
+      ]
+    );
+  } catch (error) {
+    console.error("Failed to update employee:", error);
+    throw new Error(
+      `Unable to update employee with ID ${id}: ${
+        error instanceof Error ? error.message : error
+      }`
+    );
+  }
+}

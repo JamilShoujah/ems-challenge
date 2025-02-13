@@ -2,21 +2,20 @@ import {
   Form,
   redirect,
   type ActionFunction,
-  useLoaderData,
-  useNavigate
+  useLoaderData
 } from "react-router-dom";
-import { getDB } from "~/db/getDB";
+import {
+  getEmployeeById,
+  updateEmployeeById
+} from "~/db/queries/employeeQueries";
 import { useState } from "react";
-import EmailInput from "~/components/emailInput";
 import IEmployee from "~/models/interfaces/employee";
 import Layout from "~/layout/layout";
+import { isValidEmail } from "~/functions/emailValidation";
+import "./index.css";
 
 export async function loader({ params }: { params: { employeeId: string } }) {
-  const db = await getDB();
-  const employee = await db.get(
-    "SELECT * FROM employees WHERE id = ?",
-    params.employeeId
-  );
+  const employee = await getEmployeeById(Number(params.employeeId));
   if (!employee) {
     throw new Response("Employee not found", { status: 404 });
   }
@@ -34,22 +33,17 @@ export const action: ActionFunction = async ({ request, params }) => {
   const department = formData.get("department");
   const isActive = formData.get("isActive") === "on";
 
-  const db = await getDB();
-  await db.run(
-    `UPDATE employees 
-     SET firstName = ?, lastName = ?, email = ?, position = ?, salary = ?, hireDate = ?, department = ?, isActive = ?
-     WHERE id = ?`,
-    [
-      firstName,
-      lastName,
-      email,
-      position,
-      salary,
-      hireDate,
-      department,
-      isActive,
-      params.employeeId
-    ]
+  // Call the new function from employeeQueries.ts
+  await updateEmployeeById(
+    Number(params.employeeId),
+    firstName as string,
+    lastName as string,
+    email as string,
+    position as string,
+    salary,
+    hireDate as string,
+    department as string,
+    isActive
   );
 
   return redirect(`/employees/${params.employeeId}`);
@@ -57,21 +51,23 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function EditEmployeePage() {
   const { employee } = useLoaderData() as { employee: IEmployee };
+  const [email, setEmail] = useState(employee.email);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [emailError, setEmailError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
-  const handleEmailValidation = (isValid: boolean) => {
+  const validateEmail = (value: string) => {
+    setEmail(value);
+    const isValid = isValidEmail(value); // Use the imported function here
     setIsEmailValid(isValid);
     setEmailError(isValid ? null : "Invalid email format");
   };
 
   return (
     <Layout>
-      <div>
-        <h1>Edit Employee #{employee.id}</h1>
-        <Form method="post">
-          <div>
+      <div className="edit-employee-container">
+        <h1 className="title">Edit Employee #{employee.id}</h1>
+        <Form method="post" className="form-container">
+          <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -81,7 +77,7 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
@@ -91,11 +87,19 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <EmailInput
-            onValidation={handleEmailValidation}
-            initialEmail={employee.email}
-          />
-          <div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => validateEmail(e.target.value)}
+              required
+            />
+            {emailError && <p className="error-text">{emailError}</p>}
+          </div>
+          <div className="form-group">
             <label htmlFor="position">Position</label>
             <input
               type="text"
@@ -105,7 +109,7 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="salary">Salary</label>
             <input
               type="number"
@@ -115,7 +119,7 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="hireDate">Hire Date</label>
             <input
               type="date"
@@ -125,7 +129,7 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="department">Department</label>
             <input
               type="text"
@@ -135,7 +139,7 @@ export default function EditEmployeePage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group checkbox-group">
             <label htmlFor="isActive">Active</label>
             <input
               type="checkbox"
@@ -144,22 +148,10 @@ export default function EditEmployeePage() {
               defaultChecked={employee.isActive}
             />
           </div>
-          <button type="submit" disabled={!isEmailValid}>
+          <button type="submit" className="submit-btn" disabled={!isEmailValid}>
             Save Changes
           </button>
         </Form>
-        <hr />
-        <ul>
-          <li>
-            <a href={`/employees/${employee.id}`}>Back to Employee</a>
-          </li>
-          <li>
-            <a href="/employees">Employees</a>
-          </li>
-          <li>
-            <a href="/timesheets">Timesheets</a>
-          </li>
-        </ul>
       </div>
     </Layout>
   );
