@@ -1,6 +1,5 @@
 import { useLoaderData, useParams, useNavigate } from "react-router-dom";
 import ITimesheet from "~/models/interfaces/timesheet";
-import { getDB } from "~/db/getDB";
 import Layout from "~/layout/layout";
 import "./index.css";
 import { getAllTimesheets } from "~/db/queries/timesheetQueries";
