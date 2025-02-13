@@ -2,10 +2,36 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  margin-top: 20px;
 }
 
 .employee-grid > * {
   flex: 1 1 calc(33.333% - 20px);
   max-width: calc(33.333% - 20px);
   box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .employee-grid > * {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .employee-grid > * {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .employee-grid > * {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .employee-grid {
+    gap: 15px;
+  }
 }

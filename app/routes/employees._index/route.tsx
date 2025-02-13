@@ -24,6 +24,7 @@ const EmployeesPage = () => {
     <Layout>
       <div className="employees-container">
         <h1 className="employees-title">Employee List</h1>
+        <p>press on an employee to view profile</p>
         {error ? (
           <p className="error-message">{error}</p>
         ) : (
