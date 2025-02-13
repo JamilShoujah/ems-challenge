@@ -1,16 +1,14 @@
 import { useLoaderData } from "react-router";
-import { useState } from "react";
-import { getDB } from "~/db/getDB";
 import TimesheetDetails from "~/components/timesheetCell";
 import ITimesheet from "~/models/interfaces/timesheet";
 import MyCalendar from "~/components/calendar";
+import Layout from "~/layout/layout";
+import { getAllTimesheetsWithEmployees } from "~/db/queries/timesheetQueries";
+import { useState } from "react";
+import "./index.css";
 
 export async function loader() {
-  const db = await getDB();
-  const timesheetsAndEmployees = await db.all(
-    "SELECT timesheets.*, employees.firstName, employees.lastName, employees.id AS employee_id FROM timesheets JOIN employees ON timesheets.employee_id = employees.id"
-  );
-
+  const timesheetsAndEmployees = await getAllTimesheetsWithEmployees();
   return { timesheetsAndEmployees };
 }
 
@@ -23,39 +21,26 @@ export default function TimesheetsPage() {
   };
 
   return (
-    <div>
+    <Layout>
       <div>
-        <button onClick={handleViewChange}>Table View</button>
-        <button onClick={handleViewChange}>Calendar View</button>
-      </div>
+        <div className="view-toggle">
+          <button onClick={handleViewChange} className="view-toggle-button">
+            {isTableView ? "Switch to Calendar View" : "Switch to Table View"}
+          </button>
+        </div>
 
-      {isTableView ? (
-        <div>
-          {timesheetsAndEmployees.map((timesheet: ITimesheet) => {
-            console.log("Timesheet data:", timesheet);
-            return (
+        {isTableView ? (
+          <div className="timesheet-grid">
+            {timesheetsAndEmployees.map((timesheet: ITimesheet) => (
               <TimesheetDetails key={timesheet.id} timesheet={timesheet} />
-            );
-          })}
-        </div>
-      ) : (
-        <div>
-          <MyCalendar timesheets={timesheetsAndEmployees} />
-        </div>
-      )}
-
-      <hr />
-      <ul>
-        <li>
-          <a href="/timesheets/new">New Timesheet</a>
-        </li>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-        <li>
-          <a href="/">Home</a>
-        </li>
-      </ul>
-    </div>
+            ))}
+          </div>
+        ) : (
+          <div className="timesheet-cal">
+            <MyCalendar timesheets={timesheetsAndEmployees} />
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 }

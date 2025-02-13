@@ -1,0 +1,35 @@
+.employee-details {
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 0;
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.employee-details:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.employee-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.employee-details li {
+  margin-bottom: 10px;
+}
+
+.employee-details .status-active {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.employee-details .status-inactive {
+  color: #dc3545;
+  font-weight: bold;
+}

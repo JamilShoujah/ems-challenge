@@ -2,17 +2,18 @@ import { ScheduleXCalendar, useCalendarApp } from "@schedule-x/react";
 import { createViewWeek, createViewMonthGrid } from "@schedule-x/calendar";
 import "@schedule-x/theme-default/dist/calendar.css";
 import ITimesheet from "~/models/interfaces/timesheet";
+import "./index.css";
 
 interface MyCalendarProps {
-  timesheets: ITimesheet[]; // Accepts timesheets as a prop
+  timesheets: ITimesheet[];
 }
 
 function MyCalendar({ timesheets }: MyCalendarProps) {
-  const events = timesheets.map((timesheet) => ({
-    id: timesheet.id?.toString() || "",
-    title: timesheet.full_name,
-    start: timesheet.start_time, // Ensure correct format YYYY-MM-DD HH:mm
-    end: timesheet.end_time // Ensure correct format YYYY-MM-DD HH:mm
+  const events = timesheets.map(({ id, full_name, start_time, end_time }) => ({
+    id: id?.toString() || "",
+    title: full_name,
+    start: start_time,
+    end: end_time
   }));
 
   const calendarApp = useCalendarApp({
@@ -21,7 +22,7 @@ function MyCalendar({ timesheets }: MyCalendarProps) {
   });
 
   return (
-    <div className="App">
+    <div className="sx-react-calendar-wrapper">
       <ScheduleXCalendar calendarApp={calendarApp} />
     </div>
   );
