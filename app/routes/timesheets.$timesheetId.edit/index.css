@@ -78,3 +78,23 @@ body {
 .back-links a:hover {
   text-decoration: underline;
 }
+
+.dropdown {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+  cursor: pointer;
+}
+
+.dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.dropdown option {
+  padding: 10px;
+}

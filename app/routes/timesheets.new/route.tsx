@@ -1,72 +1,59 @@
-import { useLoaderData, Form, redirect } from "react-router";
-import { getDB } from "~/db/getDB";
+import { Form, redirect, useLoaderData } from "react-router-dom";
+import Layout from "~/layout/layout";
+import { getAllEmployees } from "~/db/queries/employeeQueries";
+import { addTimesheet } from "~/db/queries/timesheetQueries";
+import IEmployee from "~/models/interfaces/employee";
+import "../timesheets.$timesheetId.edit/index.css";
 
-export async function loader() {
-  const db = await getDB();
-  const employees = await db.all(
-    "SELECT id, firstName, lastName FROM employees"
-  );
+type LoaderData = {
+  employees: (IEmployee & { full_name: string })[];
+};
 
-  employees.forEach((employee) => {
-    employee.full_name = `${employee.firstName} ${employee.lastName}`;
-  });
-
-  return { employees };
+export async function loader(): Promise<LoaderData> {
+  const employees = await getAllEmployees();
+  return {
+    employees: employees.map((emp) => ({
+      ...emp,
+      full_name: `${emp.firstName} ${emp.lastName}`
+    }))
+  };
 }
 
-import type { ActionFunction } from "react-router";
-import Layout from "~/layout/layout";
-
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
-  const employee_id = formData.get("employee_id");
-  const start_time = formData.get("start_time");
-  const end_time = formData.get("end_time");
+  const employee_id = Number(formData.get("employee_id"));
+  const start_time = formData.get("start_time") as string;
+  const end_time = formData.get("end_time") as string;
 
-  const db = await getDB();
-
-  // Fetch the employee's full name
-  const employee = await db.get(
-    "SELECT firstName, lastName FROM employees WHERE id = ?",
-    [employee_id]
-  );
-
-  const full_name = `${employee.firstName} ${employee.lastName}`;
-
-  const formatDateTime = (dateTime: string) => {
-    return new Date(dateTime).toISOString().replace("T", " ").slice(0, 16);
-  };
-
-  const formattedStartTime = formatDateTime(start_time as string);
-  const formattedEndTime = formatDateTime(end_time as string);
-
-  await db.run(
-    "INSERT INTO timesheets (employee_id, start_time, end_time, full_name) VALUES (?, ?, ?, ?)",
-    [employee_id, formattedStartTime, formattedEndTime, full_name]
-  );
-
+  await addTimesheet(employee_id, start_time, end_time);
   return redirect("/timesheets");
 };
 
 export default function NewTimesheetPage() {
-  const { employees } = useLoaderData();
+  const { employees } = useLoaderData() as LoaderData;
+
   return (
     <Layout>
-      <div>
-        <h1>Create New Timesheet</h1>
-        <Form method="post">
-          <div>
+      <div className="edit-timesheet-container">
+        <h1 className="title">Create New Timesheet</h1>
+        <form method="post" className="form-container">
+          <div className="form-group">
             <label htmlFor="employee_id">Employee</label>
-            <select name="employee_id" id="employee_id" required>
+            <select
+              name="employee_id"
+              id="employee_id"
+              required
+              className="dropdown"
+            >
               <option value="">Select an employee</option>
-              {employees.map((employee: any) => (
+              {employees.map((employee) => (
                 <option key={employee.id} value={employee.id}>
                   {employee.full_name}
                 </option>
               ))}
             </select>
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="start_time">Start Time</label>
             <input
               type="datetime-local"
@@ -75,7 +62,7 @@ export default function NewTimesheetPage() {
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="end_time">End Time</label>
             <input
               type="datetime-local"
@@ -84,17 +71,10 @@ export default function NewTimesheetPage() {
               required
             />
           </div>
-          <button type="submit">Create Timesheet</button>
-        </Form>
-        <hr />
-        <ul>
-          <li>
-            <a href="/timesheets">Timesheets</a>
-          </li>
-          <li>
-            <a href="/employees">Employees</a>
-          </li>
-        </ul>
+          <button type="submit" className="submit-btn">
+            Create Timesheet
+          </button>
+        </form>
       </div>
     </Layout>
   );
