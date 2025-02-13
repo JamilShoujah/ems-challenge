@@ -1,18 +1,31 @@
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 import "./index.css";
 
 const NavigationMenu = () => {
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        
         <Link to="/" className="navbar-logo">
-          Employee Management System
+          <span className="navbar-logo-full">Employee Management System</span>
+          <span className="navbar-logo-short">EMS</span>
         </Link>
-        <ul className="navbar-links">
+
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </button>
+
+        <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
           <li>
-            <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+            <Link
+              to="/"
+              className={location.pathname === "/" ? "active" : ""}
+              onClick={() => setMenuOpen(false)}
+            >
               Home
             </Link>
           </li>
@@ -26,6 +39,7 @@ const NavigationMenu = () => {
                   ? "active"
                   : ""
               }
+              onClick={() => setMenuOpen(false)}
             >
               Employees
             </Link>
@@ -35,6 +49,7 @@ const NavigationMenu = () => {
             <Link
               to="/employees/new"
               className={location.pathname === "/employees/new" ? "active" : ""}
+              onClick={() => setMenuOpen(false)}
             >
               New Employee
             </Link>
@@ -49,6 +64,7 @@ const NavigationMenu = () => {
                   ? "active"
                   : ""
               }
+              onClick={() => setMenuOpen(false)}
             >
               Timesheets
             </Link>
@@ -60,6 +76,7 @@ const NavigationMenu = () => {
               className={
                 location.pathname === "/timesheets/new" ? "active" : ""
               }
+              onClick={() => setMenuOpen(false)}
             >
               New Timesheet
             </Link>
