@@ -1,0 +1,131 @@
+.timesheet-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timesheet-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.timesheet-details {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.timesheet-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.timesheet-details li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.timesheet-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.timesheet-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.timesheet-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  font-size: 1.2em;
+  margin: 20px 0;
+}
+
+@media (max-width: 1024px) {
+  .timesheet-container {
+    padding: 15px;
+  }
+
+  .timesheet-details {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .timesheet-container {
+    padding: 10px;
+  }
+
+  .timesheet-details {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timesheet-container {
+    padding: 10px;
+  }
+
+  .timesheet-title {
+    font-size: 1.5rem;
+  }
+
+  .timesheet-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .timesheet-buttons button {
+    width: 100%;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+}
+
+/* Edit button styling */
+.edit-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.edit-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+}
+
+.edit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

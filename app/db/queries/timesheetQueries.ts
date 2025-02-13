@@ -1,4 +1,5 @@
 import { getDB } from "~/db/getDB";
+import ITimesheet from "~/models/interfaces/timesheet";
 
 export async function getAllTimesheetsWithEmployees(): Promise<any[]> {
   try {
@@ -15,4 +16,10 @@ export async function getAllTimesheetsWithEmployees(): Promise<any[]> {
       }`
     );
   }
+}
+
+export async function getAllTimesheets(): Promise<ITimesheet[]> {
+  const db = await getDB();
+  const timesheets: ITimesheet[] = await db.all("SELECT * FROM timesheets;");
+  return timesheets;
 }
