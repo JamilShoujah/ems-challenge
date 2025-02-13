@@ -23,10 +23,10 @@ const TimesheetDetails: React.FC<{ timesheet: ITimesheet }> = ({
           {timesheet.employee_id})
         </li>
         <li>
-          <strong>Start Time:</strong> {formatDateTime(timesheet.start_time)}
+          <strong>Start Time:</strong> {timesheet.start_time}
         </li>
         <li>
-          <strong>End Time:</strong> {formatDateTime(timesheet.end_time)}
+          <strong>End Time:</strong> {timesheet.end_time}
         </li>
       </ul>
     </div>

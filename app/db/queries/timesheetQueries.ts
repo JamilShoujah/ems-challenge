@@ -1,10 +1,11 @@
 import { getDB } from "~/db/getDB";
+import { formatDateTime } from "~/functions/dateFormating";
 import ITimesheet from "~/models/interfaces/timesheet";
 
 export async function getAllTimesheetsWithEmployees(): Promise<any[]> {
   try {
     const db = await getDB();
-    return await db.all(
+    const timesheetsAndEmployees = await db.all(
       `SELECT timesheets.*, 
               employees.firstName, 
               employees.lastName, 
@@ -12,6 +13,12 @@ export async function getAllTimesheetsWithEmployees(): Promise<any[]> {
        FROM timesheets 
        JOIN employees ON timesheets.employee_id = employees.id`
     );
+
+    return timesheetsAndEmployees.map((ts) => ({
+      ...ts,
+      start_time: formatDateTime(ts.start_time),
+      end_time: formatDateTime(ts.end_time)
+    }));
   } catch (error: unknown) {
     console.error("Failed to fetch timesheets and employees:", error);
     throw new Error(
