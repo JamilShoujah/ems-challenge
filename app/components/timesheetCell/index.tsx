@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ITimesheet from "~/models/interfaces/timesheet";
+import "./index.css";
 
 const TimesheetDetails: React.FC<{ timesheet: ITimesheet }> = ({
   timesheet
@@ -11,16 +12,7 @@ const TimesheetDetails: React.FC<{ timesheet: ITimesheet }> = ({
   };
 
   return (
-    <div
-      onClick={handleNavigate}
-      style={{
-        cursor: "pointer",
-        padding: "10px",
-        borderRadius: "5px",
-        margin: "10px",
-        background: "#f5f5f5"
-      }}
-    >
+    <div className="timesheet-details" onClick={handleNavigate}>
       <ul>
         <li>
           <strong>Timesheet ID:</strong> {timesheet.id}
