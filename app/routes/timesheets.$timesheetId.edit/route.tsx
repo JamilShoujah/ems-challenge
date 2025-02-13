@@ -83,18 +83,6 @@ export default function EditTimesheetPage() {
             Save Changes
           </button>
         </Form>
-        <hr />
-        <ul className="back-links">
-          <li>
-            <a href={`/timesheets/${timesheet.id}`}>Back to Timesheet</a>
-          </li>
-          <li>
-            <a href="/timesheets">Timesheets</a>
-          </li>
-          <li>
-            <a href="/employees">Employees</a>
-          </li>
-        </ul>
       </div>
     </Layout>
   );
